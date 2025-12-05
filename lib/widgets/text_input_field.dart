@@ -30,7 +30,7 @@ class _TextInputFieldState extends State<TextInputField> {
               hintStyle: TextStyle(color: mainGrey, fontSize: 16, fontWeight: FontWeight.bold),
               hintTextDirection: TextDirection.rtl,
               filled: true,
-              fillColor: Colors.white,
+              fillColor: pageColor,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,

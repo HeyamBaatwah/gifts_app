@@ -19,6 +19,7 @@ class CategoryBox extends StatelessWidget {
           Container(
             height: 80,
             width: 80,
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),

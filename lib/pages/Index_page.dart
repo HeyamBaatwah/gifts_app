@@ -14,16 +14,35 @@ class IndexPage extends StatefulWidget {
 
 class _IndexPageState extends State<IndexPage> {
   int _navIndex = 0;
-  final List<Widget> _pages = [
-    HomePage(user_info: {
-      'username' : 'هيام',
-      'password' : '12345',
-      'email' : 'heyambaatwah@gmail.com'
-    }),
-    SearchPage(),
-    CartPage(),
-    AccountPage()
-  ];
+  late List<Widget> _pages;
+
+  @override
+  void initState() {
+    super.initState();
+    _pages = [
+      HomePage(
+        user_info: {
+          'username' : 'هيام',
+          'password' : '12345',
+          'email' : 'heyambaatwah@gmail.com'
+        },
+        onChangeTab: (index) {
+          setState(() {
+            _navIndex = index;
+          });
+        },
+      ),
+      SearchPage(
+        user_info: {
+          'username' : 'هيام',
+          'password' : '12345',
+          'email' : 'heyambaatwah@gmail.com'
+        },
+      ),
+      CartPage(),
+      AccountPage()
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

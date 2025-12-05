@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:gifts_app/logic/product.dart';
+import 'package:gifts_app/logic/app_lists.dart';
+import 'package:gifts_app/pages/search_page.dart';
 import 'package:gifts_app/widgets/category_box.dart';
 import 'package:gifts_app/widgets/colors.dart';
 import 'package:gifts_app/widgets/product_card.dart';
+import '../widgets/ads.dart';
 
 class HomePage extends StatefulWidget {
   final Map<String, dynamic> user_info;
-  const HomePage({super.key, required this.user_info,});
+  final Function(int) onChangeTab;
+
+  const HomePage({super.key, required this.user_info, required this.onChangeTab,});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,33 +20,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Color color =  Colors.black12;
-    List < Map<String,dynamic> > ads = [
-      {
-        'dotColor' : mainColor,
-        'adsColor' : Colors.blue,
-      },
-      {
-        'dotColor' : mainGrey,
-        'adsColor' : Colors.red,
-      },
-      {
-        'dotColor' : mainGrey,
-        'adsColor' : Colors.orange,
-      },
-    ];
-    List categories = [
-      ['assets/3d_rendering_of_delicious_cheese_burger___Free_PSD-removebg-preview.png', 'بالونات'],
-      ['assets/_sushi-removebg-preview.png', 'حلويات'],
-      ['assets/Screenshot_2025-07-03_192038-removebg-preview.png', 'هدايا'],
-      ['assets/Screenshot_2025-07-03_194837-removebg-preview.png', 'ورد'],
-    ];
-    List products = [
-      Product(name: 'توليب', price: 20.00, image: 'assets/3d_rendering_of_delicious_cheese_burger___Free_PSD-removebg-preview.png'),
-      Product(name: 'شوكولاته', price: 30.00, image: 'assets/_sushi-removebg-preview.png'),
-      Product(name: 'هدية', price: 50.00, image: 'assets/Screenshot_2025-07-03_192038-removebg-preview.png'),
-      Product(name: 'بالونات HBD', price: 10.00, image: 'assets/Screenshot_2025-07-03_194837-removebg-preview.png')
-    ];
+    Ads currentAds = AppLists.adsList[0];
+
     return Padding(
       padding: const EdgeInsets.only(top: 50, right: 20, left: 20),
       child: Column(
@@ -54,8 +33,8 @@ class _HomePageState extends State<HomePage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('مرحباً ${widget.user_info['username']}', style: TextStyle(color: Colors.black, fontSize: 30,), textAlign: TextAlign.right, textDirection: TextDirection.rtl,),
-                  Text('اختر الهدايا المناسبة لمناسباتك', style: TextStyle(color: mainGrey, fontSize: 20,), textAlign: TextAlign.right, textDirection: TextDirection.rtl,),
+                  Text('اهلاً ${widget.user_info['username']}', style: TextStyle(color: Colors.black, fontSize: 28,), textAlign: TextAlign.right, textDirection: TextDirection.rtl,),
+                  Text('قم باختيار افضل الهدايا لمناسباتك', style: TextStyle(color: mainGrey, fontSize: 18,), textAlign: TextAlign.right, textDirection: TextDirection.rtl,),
                 ],
               )
             ],
@@ -65,48 +44,49 @@ class _HomePageState extends State<HomePage> {
             height: 220,
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
-              color: color,
               borderRadius: BorderRadius.circular(20),
             ),
+            child: currentAds,
           ),
           SizedBox(height: 10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(ads.length, (index) {
-              return Padding(
-                padding: const EdgeInsets.all(2),
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      color = ads[index]['adsColor'];
-                      for(int i=0; i<ads.length; i++) {
-                        ads[i]['dotColor'] = i == index ? mainColor : mainGrey;
-                      }
-                    });
-                  },
-                  child: Container(
-                    height: 10,
-                    width: 10,
-                    decoration: ShapeDecoration(shape: CircleBorder(), color: ads[index]['dotColor'],),
+            children: List.generate(AppLists.adsList.length, (index) {
+              return InkWell(
+                onTap: () {
+                  setState(() {
+                    currentAds = AppLists.adsList[index];
+                    for(int i = 0; i < AppLists.adsList.length; i++) {
+                      AppLists.adsList[i].buttonColor = i == index ? mainColor : mainGrey;
+                    }
+                  });
+                },
+                child: Container(
+                  height: 12,
+                  width: 12,
+                  margin: EdgeInsets.all(2),
+                  decoration: ShapeDecoration(
+                    color: AppLists.adsList[index].buttonColor,
+                    shape: CircleBorder()
                   ),
                 ),
               );
             }),
           ),
-          SizedBox(height: 20,),
+          SizedBox(height: 15,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(categories.length, (index) {
-              return CategoryBox(icon: categories[index][0], title: categories[index][1]);
+            children: List.generate(AppLists.categories.length, (index) {
+              return CategoryBox(icon: AppLists.categories[index][0], title: AppLists.categories[index][1]);
             }),
           ),
-          SizedBox(height:20),
+          SizedBox(height:15),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
                 onTap: () {
-
+                  widget.onChangeTab(1);
                 },
                 child: Text('المزيد', style: TextStyle(color: mainColor, fontSize: 18, fontWeight: FontWeight.bold, decoration: TextDecoration.underline), textDirection: TextDirection.rtl, textAlign: TextAlign.right,)
               ),
@@ -114,7 +94,20 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           SizedBox(height: 10,),
-          ProductCard(product: products[0])
+          SizedBox(
+            height: 230,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              reverse: true,
+              itemCount: AppLists.productsList.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: ProductCard(product: AppLists.productsList[index]),
+                );
+              },
+            ),
+          ),
 
         ],
       ),
