@@ -36,7 +36,6 @@ class _ProductCardState extends State<ProductCard> {
           ),
           InkWell(
             onTap: () {
-              // go to details
             },
             child: Container(
               alignment: Alignment.center,

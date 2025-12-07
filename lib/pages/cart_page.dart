@@ -5,20 +5,22 @@ import 'package:gifts_app/widgets/main_button.dart';
 import 'package:gifts_app/widgets/product_in_cart.dart';
 
 class CartPage extends StatefulWidget {
-  const CartPage({super.key});
+  final VoidCallback? onBack;
+
+  const CartPage({super.key, this.onBack});
 
   @override
-  State<CartPage> createState() => _CartPageState();
+  State<CartPage> createState() => CartPageState();
 }
 
-class _CartPageState extends State<CartPage> {
+class CartPageState extends State<CartPage> {
   // حساب المجموع
   double get totalAmount {
     return AppLists.productInCart.fold(0.0, (sum, product) {
       return sum + (product.price * product.quantity);
     });
   }
-
+  final GlobalKey<CartPageState> cartkey = GlobalKey<CartPageState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +35,13 @@ class _CartPageState extends State<CartPage> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            if (widget.onBack != null) {
+              widget.onBack!();
+            } else {
+              Navigator.pop(context);
+            }
+          },
         ),
       ),
       body: AppLists.productInCart.isEmpty
@@ -165,14 +173,11 @@ class _CartPageState extends State<CartPage> {
             ),
             const SizedBox(height: 20),
 
-            // زر الدفع
             MainButton(
               title: 'إنتقل للدفع',
               bgColor: mainColor,
               titleColor: Colors.white,
               action: () {
-                // يمكنك توجيه المستخدم إلى صفحة الدفع
-                // أو عرض SnackBar مؤقتاً
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: const Text('تم الانتقال إلى صفحة الدفع'),

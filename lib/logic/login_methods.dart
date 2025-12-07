@@ -67,4 +67,14 @@ class LogInMethods {
     }
   }
 
+
+static Future<Map<String, String>> getUserInfo() async {
+final prefs = await SharedPreferences.getInstance();
+return {
+'username': prefs.getString('username') ?? 'مستخدم',
+'email': prefs.getString('email') ?? '',
+'phone': prefs.getString('phone') ?? '',
+'password': prefs.getString('password') ?? '',
+};
+}
 }

@@ -41,7 +41,7 @@ class _DetailsPageState extends State<DetailsPage> {
               });
             },
           ),
-          SizedBox(width: 15),
+          const SizedBox(width: 15),
         ],
       ),
       body: Padding(
@@ -49,7 +49,6 @@ class _DetailsPageState extends State<DetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // صورة المنتج
             Container(
               height: 250,
               width: double.infinity,
@@ -74,7 +73,6 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
             const SizedBox(height: 20),
 
-            // الاسم والسعر
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -102,7 +100,6 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
             const SizedBox(height: 15),
 
-            // قسم "تحتوي"
             const Text(
               'تحتوي',
               style: TextStyle(
@@ -115,7 +112,6 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
             const SizedBox(height: 10),
 
-            // عرض المحتويات
             if (widget.product.content.isNotEmpty)
               Wrap(
                 alignment: WrapAlignment.end,
@@ -213,16 +209,25 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
             const SizedBox(height: 25),
 
-            // زر الإضافة إلى السلة
             MainButton(
               title: 'إضافة إلى السلة (${widget.product.quantity})',
               bgColor: mainColor,
               titleColor: Colors.white,
               action: () {
                 if (widget.product.quantity > 0) {
-                  // نتأكد من عدم تكرار المنتج في السلة إذا أردت ذلك
-                  // لكن حسب طلبك: نضيفه مباشرة
-                  AppLists.productInCart.add(widget.product);
+                  bool exists = AppLists.productInCart.any((p) => p.name == widget.product.name);
+                  if (!exists) {
+                    final newProduct = Product(
+                      name: widget.product.name,
+                      price: widget.product.price,
+                      image: widget.product.image,
+                      category: widget.product.category,
+                      content: List.from(widget.product.content),
+                    );
+                    newProduct.quantity = widget.product.quantity;
+                    AppLists.productInCart.add(newProduct);
+                  }
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(

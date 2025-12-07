@@ -6,12 +6,13 @@ import 'package:gifts_app/pages/get_started.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountPage extends StatefulWidget {
-  const AccountPage({super.key});
+  final VoidCallback? onBack;
 
-  @	override
+  const AccountPage({super.key, this.onBack});
+
+  @override
   State<AccountPage> createState() => _AccountPageState();
 }
-
 class _AccountPageState extends State<AccountPage> {
   String username = "وديان";
   String email = "wedyan@gmail.com";
@@ -31,13 +32,18 @@ class _AccountPageState extends State<AccountPage> {
         centerTitle: true,
         leading: CircularButton(
           icon: Icons.arrow_back_ios_new_rounded,
-          action: () => Navigator.pop(context),
+          action: () {
+            if (widget.onBack != null) {
+              widget.onBack!();
+            } else {
+              Navigator.pop(context);
+            }
+          },
         ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // 🔹 الجزء العلوي: صورة الملف الشخصي (أعلى ما يمكن)
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 30),
             child: Center(
@@ -64,7 +70,6 @@ class _AccountPageState extends State<AccountPage> {
             ),
           ),
 
-          // 🔹 باقي البيانات
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -145,7 +150,7 @@ class _AccountPageState extends State<AccountPage> {
                       ),
                     ],
                   ),
-                  const Spacer(), // يدفع الزر للأسفل
+                  const Spacer(),
                   MainButton(
                     title: 'تسجيل الخروج',
                     bgColor: mainColor,
