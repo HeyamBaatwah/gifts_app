@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gifts_app/pages/details_page.dart';
 import 'package:gifts_app/logic/app_lists.dart';
 import 'package:gifts_app/pages/search_page.dart';
 import 'package:gifts_app/widgets/category_box.dart';
@@ -23,6 +24,7 @@ class _HomePageState extends State<HomePage> {
 
     return Padding(
       padding: const EdgeInsets.only(top: 50, right: 20, left: 20),
+      child: SingleChildScrollView(
       child: Column(
         children: [
           Row(
@@ -112,6 +114,8 @@ class _HomePageState extends State<HomePage> {
 
         ],
       ),
+      )
     );
+
   }
 }

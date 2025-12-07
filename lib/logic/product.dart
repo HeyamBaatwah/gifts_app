@@ -1,3 +1,4 @@
+
 class Product {
   String name;
   String image;
@@ -7,6 +8,8 @@ class Product {
   List content;
   bool isLiked = false;
 
+
   Product({required this.name, required this.price, required this.image, required this.category, required this.content});
 
 }
+
