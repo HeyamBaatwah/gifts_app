@@ -1,3 +1,4 @@
+import 'package:gifts_app/logic/login_methods.dart';
 import 'package:gifts_app/pages/details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gifts_app/pages/Index_page.dart';
@@ -18,11 +19,16 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool? isLogged;
-
+  late Map<String, dynamic> userInfo;
   @override
   void initState() {
     super.initState();
     checkLoginStatus();
+    getUserInfo();
+  }
+
+  getUserInfo() async {
+    userInfo = await LogInMethods.getUserInfo();
   }
 
   checkLoginStatus() async {
@@ -52,7 +58,7 @@ class _MyAppState extends State<MyApp> {
               ),
             )
         ),
-      ) : isLogged! ? IndexPage() : GetStarted(),
+      ) : isLogged! ? IndexPage(userInfo: userInfo,) : GetStarted(),
     );
   }
 }

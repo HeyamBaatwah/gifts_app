@@ -63,7 +63,26 @@ class SearchPageState extends State<SearchPage> {
                 children: [
                   Text('${widget.user_info['username']}', style: TextStyle(color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),),
                   SizedBox(width: 20,),
-                  Icon(Icons.account_circle, color: mainColor, size: 50,),
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: mainColor.withOpacity(0.15),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text(
+                        widget.user_info['username'].trim().substring(0, 1),
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                          color: mainColor,
+                          fontFamily: 'Cairo',
+                          height: 1.0,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],

@@ -67,4 +67,16 @@ class LogInMethods {
     }
   }
 
+  static Future<Map<String, dynamic>> getUserInfo()  async {
+    final prefs = await SharedPreferences.getInstance();
+    final username = await prefs.getString('username');
+    final email = await prefs.getString('email');
+    final phone = await prefs.getString('phone');
+    return {
+      'username' : username!,
+      'email' : email!,
+      'phone' : phone!
+    };
+  }
+
 }

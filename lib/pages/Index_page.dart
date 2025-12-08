@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gifts_app/logic/app_lists.dart';
+import 'package:gifts_app/logic/login_methods.dart';
 import 'package:gifts_app/pages/account_page.dart';
 import 'package:gifts_app/pages/cart_page.dart';
 import 'package:gifts_app/pages/home_page.dart';
@@ -7,27 +7,26 @@ import 'package:gifts_app/pages/search_page.dart';
 import 'package:gifts_app/widgets/colors.dart';
 
 class IndexPage extends StatefulWidget {
-  const IndexPage({super.key});
+  final Map<String, dynamic> userInfo;
+  const IndexPage({super.key, required this.userInfo});
 
   @override
-  State<IndexPage> createState() => _IndexPageState();
+  State<IndexPage> createState() => IndexPageState();
 }
 
-class _IndexPageState extends State<IndexPage> {
+class IndexPageState extends State<IndexPage> {
   int _navIndex = 0;
   late List<Widget> _pages;
   final GlobalKey<SearchPageState> searchKey = GlobalKey<SearchPageState>();
-
+  static final GlobalKey<CartPageState> cartKey = GlobalKey<CartPageState>();
+  static final GlobalKey<HomePageState> homeKey = GlobalKey<HomePageState>();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     _pages = [
       HomePage(
-        user_info: {
-          'username' : 'هيام',
-          'password' : '12345',
-          'email' : 'heyambaatwah@gmail.com'
-        },
+        key: homeKey,
+        user_info: widget.userInfo,
         onChangeTab: (index, category) {
           setState(() {
             searchKey.currentState!.changeCategory(category);
@@ -37,14 +36,14 @@ class _IndexPageState extends State<IndexPage> {
       ),
       SearchPage(
         key: searchKey,
-        user_info: {
-          'username' : 'هيام',
-          'password' : '12345',
-          'email' : 'heyambaatwah@gmail.com'
-        },
+        user_info: widget.userInfo,
       ),
-      CartPage(),
-      AccountPage()
+      CartPage(
+        key: cartKey,
+      ),
+      AccountPage(
+        user_info: widget.userInfo,
+      )
     ];
     return Scaffold(
       backgroundColor: pageColor,

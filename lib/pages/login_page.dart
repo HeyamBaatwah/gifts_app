@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gifts_app/logic/login_methods.dart';
 import 'package:gifts_app/pages/Index_page.dart';
 import 'package:gifts_app/pages/signup_page.dart';
+import 'package:gifts_app/widgets/circular_button.dart';
 import 'package:gifts_app/widgets/main_button.dart';
 import 'package:gifts_app/widgets/text_input_field.dart';
 import '../widgets/colors.dart';
@@ -25,9 +26,19 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: pageColor,
-      body: Container(
-        alignment: Alignment.bottomCenter,
-        child: Container(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 60,
+            width: 60,
+            margin: EdgeInsets.only(top: 30, left: 20),
+            child: CircularButton(icon: Icons.arrow_back_ios_outlined, action: () {
+              Navigator.pop(context);
+            }),
+          ),
+          Container(
           height: 700,
           width: double.infinity,
           padding: EdgeInsets.only(top: 30, left: 20, right: 20),
@@ -53,8 +64,9 @@ class _LoginPageState extends State<LoginPage> {
                   if(_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     bool result = await LogInMethods.checkValue(_controller1.text, _controller2.text);
+                    Map<String, dynamic> userInfo = await LogInMethods.getUserInfo();
                     if(result) {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => IndexPage()));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => IndexPage(userInfo: userInfo,)));
                     } else {
                       setState(() {
                         message = 'Invalid username or password';
@@ -80,6 +92,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
+        ],
       )
     );
   }

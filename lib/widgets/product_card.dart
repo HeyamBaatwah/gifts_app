@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gifts_app/logic/app_lists.dart';
 import 'package:gifts_app/logic/product.dart';
+import 'package:gifts_app/pages/details_page.dart';
 import 'package:gifts_app/widgets/colors.dart';
 
 class ProductCard extends StatefulWidget {
@@ -8,10 +9,11 @@ class ProductCard extends StatefulWidget {
   const ProductCard({super.key, required this.product});
 
   @override
-  State<ProductCard> createState() => _ProductCardState();
+  State<ProductCard> createState() => ProductCardState();
 }
 
-class _ProductCardState extends State<ProductCard> {
+class ProductCardState extends State<ProductCard> {
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,7 +38,7 @@ class _ProductCardState extends State<ProductCard> {
           ),
           InkWell(
             onTap: () {
-              // go to details
+              Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsPage(product: widget.product)));
             },
             child: Container(
               alignment: Alignment.center,
@@ -51,8 +53,10 @@ class _ProductCardState extends State<ProductCard> {
               children: [
                 InkWell(
                   onTap: () {
-                    AppLists.productInCart.add(widget.product);
-                    print(AppLists.productInCart);
+                    if(widget.product.quantity<=0) {
+                      widget.product.quantity++;
+                      AppLists.productInCart.add(widget.product);
+                    }
                   },
                   child: Container(
                     height: 35,

@@ -8,10 +8,10 @@ class CartPage extends StatefulWidget {
   const CartPage({super.key});
 
   @override
-  State<CartPage> createState() => _CartPageState();
+  State<CartPage> createState() => CartPageState();
 }
 
-class _CartPageState extends State<CartPage> {
+class CartPageState extends State<CartPage> {
   // حساب المجموع
   double get totalAmount {
     return AppLists.productInCart.fold(0.0, (sum, product) {
@@ -21,40 +21,44 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: pageColor,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'سلة التسوق',
-          style: TextStyle(color: Colors.black, fontSize: 20),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: AppLists.productInCart.isEmpty
-          ? Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.shopping_bag_outlined, size: 80, color: mainGrey),
-            const SizedBox(height: 20),
-            Text(
-              'سلة فارغة',
-              style: TextStyle(color: mainGrey, fontSize: 20),
-            ),
-          ],
-        ),
-      )
+    return Container(
+      alignment: Alignment.topCenter,
+      child:  AppLists.productInCart.isEmpty
+          ? Column(
+            children: [
+              Container(
+                alignment: Alignment.topRight,
+                margin: const EdgeInsets.only(top: 60, bottom: 40, right: 20),
+                child: Text('سلة الحساب', style: TextStyle(color: Colors.black, fontSize: 30)
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.shopping_bag_outlined, size: 80, color: mainGrey),
+                    const SizedBox(height: 20),
+                    Text(
+                      'سلة فارغة',
+                      style: TextStyle(color: mainGrey, fontSize: 20),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )
           : Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
+            Container(
+              alignment: Alignment.topRight,
+              margin: const EdgeInsets.only(top: 60, right: 20),
+              child: Text('سلة الحساب', style: TextStyle(color: Colors.black, fontSize: 30)
+              ),
+            ),
             // قائمة المنتجات
             Expanded(
               child: ListView.builder(
@@ -67,6 +71,7 @@ class _CartPageState extends State<CartPage> {
                     product: product,
                     deleteAction: () {
                       setState(() {
+                        AppLists.productInCart[index].quantity =0;
                         AppLists.productInCart.removeAt(index);
                       });
                     },
@@ -175,7 +180,7 @@ class _CartPageState extends State<CartPage> {
                 // أو عرض SnackBar مؤقتاً
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text('تم الانتقال إلى صفحة الدفع'),
+                    content: const Text('تم الدفع بنجاح'),
                     backgroundColor: mainColor,
                   ),
                 );

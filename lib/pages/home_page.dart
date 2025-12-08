@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gifts_app/pages/details_page.dart';
 import 'package:gifts_app/logic/app_lists.dart';
-import 'package:gifts_app/pages/search_page.dart';
 import 'package:gifts_app/widgets/category_box.dart';
 import 'package:gifts_app/widgets/colors.dart';
 import 'package:gifts_app/widgets/product_card.dart';
@@ -13,11 +11,12 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.user_info, required this.onChangeTab,});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   Ads currentAds = AppLists.adsList[0];
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,26 @@ class _HomePageState extends State<HomePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(Icons.account_circle, color: mainColor, size: 60,),
+              Container(
+                height: 60,
+                width: 60,
+                decoration: BoxDecoration(
+                  color: mainColor.withOpacity(0.15),
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Text(
+                    widget.user_info['username'].trim().substring(0, 1),
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                      color: mainColor,
+                      fontFamily: 'Cairo',
+                      height: 1.0,
+                    ),
+                  ),
+                ),
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [

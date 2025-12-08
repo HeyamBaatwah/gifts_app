@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gifts_app/logic/product.dart';
+import 'package:gifts_app/pages/Index_page.dart';
+import 'package:gifts_app/pages/cart_page.dart';
 import 'package:gifts_app/widgets/circular_button.dart';
 import 'package:gifts_app/widgets/colors.dart';
 
@@ -13,6 +15,7 @@ class ProductInCart extends StatefulWidget {
 }
 
 class _ProductInCartState extends State<ProductInCart> {
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,6 +64,9 @@ class _ProductInCartState extends State<ProductInCart> {
                   CircularButton(icon: Icons.add, action: () {
                     setState(() {
                       widget.product.quantity++;
+                      IndexPageState.cartKey.currentState!.setState(() {
+                        IndexPageState.cartKey.currentState!.totalAmount;
+                      });
                     });
                   }),
                   Text('${widget.product.quantity}', style: TextStyle(color: Colors.white, fontSize: 20),),
@@ -68,6 +74,9 @@ class _ProductInCartState extends State<ProductInCart> {
                     setState(() {
                       if(widget.product.quantity > 0) {
                         widget.product.quantity--;
+                        IndexPageState.cartKey.currentState!.setState(() {
+                          IndexPageState.cartKey.currentState!.totalAmount;
+                        });
                       }
                     });
                   }),

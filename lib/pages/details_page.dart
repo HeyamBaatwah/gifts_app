@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gifts_app/logic/product.dart';
 import 'package:gifts_app/logic/app_lists.dart';
+import 'package:gifts_app/pages/Index_page.dart';
 import 'package:gifts_app/widgets/colors.dart';
 import 'package:gifts_app/widgets/circular_button.dart';
 import 'package:gifts_app/widgets/main_button.dart';
@@ -15,6 +16,7 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +26,9 @@ class _DetailsPageState extends State<DetailsPage> {
         elevation: 0,
         leading: CircularButton(
           icon: Icons.arrow_back_ios_new_rounded,
-          action: () => Navigator.pop(context),
+          action: () {
+            Navigator.pop(context);
+          },
         ),
         actions: [
           IconButton(
@@ -37,7 +41,9 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
             onPressed: () {
               setState(() {
-                widget.product.isLiked = !widget.product.isLiked;
+                IndexPageState.homeKey.currentState!.setState(() {
+                  widget.product.isLiked = !widget.product.isLiked;
+                });
               });
             },
           ),
@@ -48,6 +54,7 @@ class _DetailsPageState extends State<DetailsPage> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // صورة المنتج
             Container(
