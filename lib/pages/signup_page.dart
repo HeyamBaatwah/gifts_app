@@ -53,13 +53,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     Text('إنشاء حسابك', style: TextStyle(color: Colors.black, fontSize: 30, fontWeight: FontWeight.bold), textAlign: TextAlign.right, textDirection: TextDirection.rtl,),
                     Text('نحن هنا لمساعدتك لاختيار افضل الهدايا لمناسباتك', style: TextStyle(color: mainGrey, fontSize: 20), textAlign: TextAlign.center, textDirection: TextDirection.rtl, ),
                     SizedBox(height: 50,),
-                    TextInputField(title: 'اسم المستخدم', hint: 'ادخل اسم المستخدم', controller: _controller1, validator: LogInMethods.validateUsername),
+                    TextInputField(title: 'اسم المستخدم', hint: 'ادخل اسم المستخدم', controller: _controller1, validator: LogInMethods.validateUsername, mode: false,),
                     SizedBox(height: 10,),
-                    TextInputField(title: 'كلمة المرور', hint: 'ادخل كلمة المرور', controller: _controller2, validator: LogInMethods.validatePassword),
+                    TextInputField(title: 'كلمة المرور', hint: 'ادخل كلمة المرور', controller: _controller2, validator: LogInMethods.validatePassword, mode: true,),
                     SizedBox(height: 10,),
-                    TextInputField(title: 'البريد الإلكتروني', hint: 'ادخل بريدك الإلكتروني', controller: _controller3, validator: LogInMethods.validateEmail),
+                    TextInputField(title: 'البريد الإلكتروني', hint: 'ادخل بريدك الإلكتروني', controller: _controller3, validator: LogInMethods.validateEmail, mode: false,),
                     SizedBox(height: 10,),
-                    TextInputField(title: 'الجوال', hint: 'ادخل رقم الجوال', controller: _controller4, validator: LogInMethods.validatePhone),
+                    TextInputField(title: 'الجوال', hint: 'ادخل رقم الجوال', controller: _controller4, validator: LogInMethods.validatePhone, mode: false,),
                     SizedBox(height: 50,),
                     MainButton(title: 'إنشاء حساب', action: () async {
                       Map<String, dynamic> userInfo = await LogInMethods.getUserInfo();

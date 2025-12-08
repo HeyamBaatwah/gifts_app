@@ -1,5 +1,4 @@
 import 'package:gifts_app/logic/login_methods.dart';
-import 'package:gifts_app/pages/details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gifts_app/pages/Index_page.dart';
 import 'package:gifts_app/pages/get_started.dart';

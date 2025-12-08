@@ -6,7 +6,8 @@ class TextInputField extends StatefulWidget {
   final String hint;
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
-  const TextInputField({super.key, required this.title, required this.hint, required this.validator, required this.controller});
+  final bool mode;
+  const TextInputField({super.key, required this.title, required this.hint, required this.validator, required this.controller, required this.mode});
 
   @override
   State<TextInputField> createState() => _TextInputFieldState();
@@ -25,6 +26,7 @@ class _TextInputFieldState extends State<TextInputField> {
           width: double.infinity,
           child: TextFormField(
             controller: widget.controller,
+            obscureText: widget.mode,
             textDirection: TextDirection.rtl,
             textAlign: TextAlign.right,
             decoration: InputDecoration(
